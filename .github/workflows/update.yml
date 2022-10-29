@@ -1,0 +1,33 @@
+name: update
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "*/60 * * * *" # runs every hour
+
+jobs:
+    generate_list:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout repo content
+              uses: actions/checkout@v3
+
+            - name: setup python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.11" # install the python version needed
+
+            - name: install python packages
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: execute py script
+              run: python update.py
+
+            - name: commit files
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git add -A
+                  git diff --name-only --cached --exit-code || ( git commit -am "update blocklist" && git push )
