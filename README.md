@@ -5,7 +5,7 @@
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 [![GitHub license](https://img.shields.io/badge/LICENSE-BSD--3--CLAUSE-GREEN?style=for-the-badge)](LICENSE)
-[![update](https://img.shields.io/github/workflow/status/elliotwutingfeng/ThreatFox-IOC-IPs/update?label=UPDATE&style=for-the-badge)](https://github.com/elliotwutingfeng/ThreatFox-IOC-IPs/actions/workflows/update.yml)
+[![update](https://img.shields.io/github/actions/workflow/status/elliotwutingfeng/ThreatFox-IOC-IPs/update.yml?branch=main&label=UPDATE&style=for-the-badge)](https://github.com/elliotwutingfeng/ThreatFox-IOC-IPs/actions/workflows/update.yml)
 <img src="https://tokei-rs.onrender.com/b1/github/elliotwutingfeng/ThreatFox-IOC-IPs?label=Total%20Blocklist%20IPs&style=for-the-badge" alt="Total Blocklist IPs"/>
 
 Machine-readable `.txt` IP blocklist from [ThreatFox](https://threatfox.abuse.ch) by [Abuse.ch](https://abuse.ch), updated every hour.
