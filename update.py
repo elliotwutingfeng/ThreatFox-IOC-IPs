@@ -113,7 +113,7 @@ async def extract_ips() -> set[str]:
                         ip_port = row[2].strip().replace('"', "")
                         ip, _, _ = ip_port.partition(":")
                         try:
-                            socket.inet_aton(ip)
+                            socket.inet_pton(socket.AF_INET, ip)
                             ips.add(ip)
                         except socket.error:
                             pass
