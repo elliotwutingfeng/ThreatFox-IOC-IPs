@@ -1,4 +1,4 @@
-aiohttp==3.9.0
+aiohttp==3.9.1
 bandit==1.7.5
 black==23.11.0
 mypy==1.7.1
