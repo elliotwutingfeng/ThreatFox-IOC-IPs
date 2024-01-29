@@ -22,7 +22,7 @@ The IPs in this blocklist are compiled by **Abuse.ch** under the [Creative Commo
 
 ## Requirements
 
-- Python >= 3.11
+- Python 3.11+
 
 ## Setup instructions
 
