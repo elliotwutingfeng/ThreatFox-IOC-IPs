@@ -29,13 +29,15 @@ The IPs in this blocklist are compiled by **Abuse.ch** under the [Creative Commo
 `git clone` and `cd` into the project directory, then run the following
 
 ```bash
-pip3 install -r requirements.txt
+python3 -m venv venv
+venv/bin/python3 -m pip install --upgrade pip
+venv/bin/python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
 
 ```bash
-python3 update.py
+venv/bin/python3 update.py
 ```
 
 &nbsp;
