@@ -3,4 +3,4 @@ bandit==1.7.9
 black==24.4.2
 mypy==1.10.1
 mypy-extensions==1.0.0
-pylint==3.2.4
+pylint==3.2.5
