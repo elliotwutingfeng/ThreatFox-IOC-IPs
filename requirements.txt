@@ -1,5 +1,5 @@
 aiohttp==3.10.5
-bandit==1.7.9
+bandit==1.7.10
 black==24.8.0
 mypy==1.11.2
 mypy-extensions==1.0.0
