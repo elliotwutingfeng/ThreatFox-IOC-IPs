@@ -2,5 +2,6 @@
 LICENSE
 README.md
 renovate.json
-requirements.txt
 update.py
+pyproject.toml
+uv.lock
