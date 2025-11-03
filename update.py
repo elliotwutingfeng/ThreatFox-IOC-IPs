@@ -31,7 +31,7 @@ async def backoff_delay_async(backoff_factor: float, number_of_retries_made: int
 
 
 async def get_async(
-    endpoints: list[str], max_concurrent_requests: int = 5, headers: dict = None
+    endpoints: list[str], max_concurrent_requests: int = 5, headers: dict | None = None
 ) -> dict[str, bytes]:
     """Given a list of HTTP endpoints, make HTTP GET requests asynchronously
 

@@ -1,0 +1,12 @@
+[project]
+name = "threatfox-ioc-ips"
+version = "0.0.1"
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp>=3.13.2",
+]
+
+[tool]
+
+[tool.pyrefly]
+project-includes = ["**/*.py*"]

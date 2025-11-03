@@ -4,7 +4,7 @@
 ![AIOHTTP](https://img.shields.io/badge/AIOHTTP-2C5BB4?style=for-the-badge&logo=aiohttp&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-[![GitHub license](https://img.shields.io/badge/LICENSE-BSD--3--CLAUSE-GREEN?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/LICENSE-BSD--3--CLAUSE-GREEN?style=for-the-badge)](LICENSE)
 [![update](https://img.shields.io/github/actions/workflow/status/elliotwutingfeng/ThreatFox-IOC-IPs/update.yml?branch=main&label=UPDATE&style=for-the-badge)](https://github.com/elliotwutingfeng/ThreatFox-IOC-IPs/actions/workflows/update.yml)
 <img src="https://tokei-rs.onrender.com/b1/github/elliotwutingfeng/ThreatFox-IOC-IPs?label=Total%20Blocklist%20IPs&style=for-the-badge" alt="Total Blocklist IPs"/>
 
@@ -22,22 +22,12 @@ The IPs in this blocklist are compiled by **Abuse.ch** under the [Creative Commo
 
 ## Requirements
 
-- Python 3.11+
-
-## Setup instructions
-
-`git clone` and `cd` into the project directory, then run the following
-
-```bash
-python3 -m venv venv
-venv/bin/python3 -m pip install --upgrade pip
-venv/bin/python3 -m pip install -r requirements.txt
-```
+- [uv](https://docs.astral.sh/uv)
 
 ## Usage
 
 ```bash
-venv/bin/python3 update.py
+uv run update.py
 ```
 
 &nbsp;
