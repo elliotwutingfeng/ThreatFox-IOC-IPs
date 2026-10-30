@@ -8,6 +8,8 @@ on:
 jobs:
     generate_list:
         runs-on: ubuntu-slim
+        env:
+            AUTH_KEY: ${{ secrets.AUTH_KEY }}
         steps:
             - name: checkout repo content
               uses: actions/checkout@v7
@@ -15,7 +17,7 @@ jobs:
             - name: Install uv
               uses: astral-sh/setup-uv@v10.3.3
               with:
-                version: "latest"
+                  version: "latest"
 
             - name: Check lock file consistency
               run: |
