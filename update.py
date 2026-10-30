@@ -1,13 +1,23 @@
 import asyncio
 import csv
+import datetime
 import io
 import ipaddress
 import logging
+import os
+import pathlib
 import socket
+import tomllib
 import zipfile
-import datetime
 
 import aiohttp
+
+if (pathlib.Path(__file__).parent / "env.toml").exists():
+    with open(pathlib.Path(__file__).parent / "env.toml", "rb") as f:
+        env = tomllib.load(f)
+    AUTH_KEY = env["AUTH_KEY"]
+else:
+    AUTH_KEY = os.environ["AUTH_KEY"]
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -20,7 +30,9 @@ default_headers: dict = {
 }
 
 
-async def backoff_delay_async(backoff_factor: float, number_of_retries_made: int) -> None:
+async def backoff_delay_async(
+    backoff_factor: float, number_of_retries_made: int
+) -> None:
     """Asynchronous time delay that exponentially increases with `number_of_retries_made`
 
     Args:
@@ -48,7 +60,9 @@ async def get_async(
     if headers is None:
         headers = default_headers
 
-    async def gather_with_concurrency(max_concurrent_requests: int, *tasks) -> dict[str, bytes]:
+    async def gather_with_concurrency(
+        max_concurrent_requests: int, *tasks
+    ) -> dict[str, bytes]:
         semaphore = asyncio.Semaphore(max_concurrent_requests)
 
         async def sem_task(task):
@@ -68,8 +82,12 @@ async def get_async(
                     return (url, await response.read())
             except Exception as error:
                 errors.append(repr(error))
-                logger.warning("%s | Attempt %d failed", error, number_of_retries_made + 1)
-                if number_of_retries_made != max_retries - 1:  # No delay if final attempt fails
+                logger.warning(
+                    "%s | Attempt %d failed", error, number_of_retries_made + 1
+                )
+                if (
+                    number_of_retries_made != max_retries - 1
+                ):  # No delay if final attempt fails
                     await backoff_delay_async(1, number_of_retries_made)
         logger.error("URL: %s GET request failed! Errors: %s", url, errors)
         return (url, b"{}")  # Allow json.loads to parse body if request fails
@@ -96,27 +114,31 @@ def current_datetime_str() -> str:
 
 
 async def extract_ips() -> set[str]:
-    """Extract IPs from https://threatfox.abuse.ch/export/csv/ip-port/full
+    """Extract IPs from https://threatfox-api.abuse.ch/v2/files/exports/<AUTH_KEY>/full.csv.zip
 
     Returns:
         set[str]: Unique IPs
     """
-    endpoint: str = "https://threatfox.abuse.ch/export/csv/ip-port/full"
+    endpoint: str = (
+        f"https://threatfox-api.abuse.ch/v2/files/exports/{AUTH_KEY}/full.csv.zip"
+    )
     ips: set[str] = set()
     try:
         response = (await get_async([endpoint]))[endpoint]
-        with zipfile.ZipFile(io.BytesIO(response)) as z:
-            with z.open(z.infolist()[0]) as file:
-                reader = csv.reader(io.TextIOWrapper(file, 'utf-8'))
-                for row in reader:
-                    if len(row) >= 3:
-                        ip_port = row[2].strip().replace('"', "")
-                        ip, _, _ = ip_port.partition(":")
-                        try:
-                            socket.inet_pton(socket.AF_INET, ip)
-                            ips.add(ip)
-                        except socket.error:
-                            pass
+        with (
+            zipfile.ZipFile(io.BytesIO(response)) as z,
+            z.open(z.infolist()[0]) as file,
+        ):
+            reader = csv.reader(io.TextIOWrapper(file, "utf-8"))
+            for row in reader:
+                if len(row) >= 3:
+                    ip_port = row[2].strip().replace('"', "")
+                    ip, _, _ = ip_port.partition(":")
+                    try:
+                        socket.inet_pton(socket.AF_INET, ip)
+                        ips.add(ip)
+                    except OSError:
+                        pass
         logger.info("%s extracted!", z.infolist()[0].filename)
     except Exception as error:
         logger.error(error)
